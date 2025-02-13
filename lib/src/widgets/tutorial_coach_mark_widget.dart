@@ -263,7 +263,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
     Widget animatedWidget = AnimatedOpacity(
       opacity: showContent ? 1 : 0,
       duration: const Duration(milliseconds: 300),
-      child: InkWell(
+      child: GestureDetector(
         onTap: skip,
         child: Padding(
           padding: const EdgeInsets.all(20.0),

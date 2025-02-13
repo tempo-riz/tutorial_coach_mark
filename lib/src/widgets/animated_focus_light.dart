@@ -266,13 +266,6 @@ abstract class AnimatedFocusLightState extends State<AnimatedFocusLight>
   double _getPaddingFocus() {
     return _targetFocus.paddingFocus ?? (widget.paddingFocus);
   }
-
-  BorderRadius _betBorderRadiusTarget() {
-    double radius = _targetFocus.shape == ShapeLightFocus.Circle
-        ? _targetPosition?.size.width ?? borderRadiusDefault
-        : _targetFocus.radius ?? borderRadiusDefault;
-    return BorderRadius.circular(radius);
-  }
 }
 
 class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
@@ -293,7 +286,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     return Semantics(
       label: widget.backgroundSemanticLabel,
       button: true,
-      child: InkWell(
+      child: GestureDetector(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
             ? () => _tapHandler(overlayTap: true)
@@ -308,11 +301,12 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
                 Positioned(
                   left: left,
                   top: top,
-                  child: InkWell(
-                    borderRadius: _betBorderRadiusTarget(),
+                  child: GestureDetector(
                     onTapDown: _tapHandlerForPosition,
                     onTap: _targetFocus.enableTargetTab
-                        ? () => _tapHandler(targetTap: true)
+                        ? () {
+                            _tapHandler(targetTap: true);
+                          }
 
                         /// Essential for collecting [TapDownDetails]. Do not make [null]
                         : () {},
@@ -390,7 +384,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     return Semantics(
       label: widget.backgroundSemanticLabel,
       button: true,
-      child: InkWell(
+      child: GestureDetector(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
             ? () => _tapHandler(overlayTap: true)
@@ -411,8 +405,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
                     Positioned(
                       left: left,
                       top: top,
-                      child: InkWell(
-                        borderRadius: _betBorderRadiusTarget(),
+                      child: GestureDetector(
                         onTap: _targetFocus.enableTargetTab
                             ? () => _tapHandler(targetTap: true)
 
